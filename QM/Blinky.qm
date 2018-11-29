@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="4.3.1" links="0">
+ <framework name="qpc"/>
+ <package name="AOs" stereotype="0x02">
+  <class name="Blinky" superclass="qpc::QActive">
+   <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
+   <statechart>
+    <initial target="../1">
+     <action>QTimeEvt_postEvery(&amp;me-&gt;timeEvt, (QActive *)me, BSP_TICKS_PER_SEC/2);</action>
+     <initial_glyph conn="4,5,4,0,7,35,9">
+      <action box="1,1,57,5"/>
+     </initial_glyph>
+    </initial>
+    <state name="led1_On">
+     <entry>BSP_led1_On();</entry>
+     <tran trig="TIMEOUT" target="../../2">
+      <tran_glyph conn="47,24,1,3,23">
+       <action box="9,-2,6,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="34,21,13,8">
+      <entry box="1,2,5,2"/>
+     </state_glyph>
+    </state>
+    <state name="led1_Off">
+     <entry>BSP_led1_Off();</entry>
+     <tran trig="TIMEOUT" target="../../3">
+      <tran_glyph conn="76,29,2,0,9">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="70,21,13,8">
+      <entry box="1,2,5,2"/>
+     </state_glyph>
+    </state>
+    <state name="led2_On">
+     <entry>BSP_led2_On();</entry>
+     <tran trig="TIMEOUT" target="../../4">
+      <tran_glyph conn="70,42,3,1,-24">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="70,38,12,8">
+      <entry box="1,2,6,2"/>
+     </state_glyph>
+    </state>
+    <state name="led2_Off">
+     <entry>BSP_led2_Off();</entry>
+     <tran trig="TIMEOUT" target="../../1">
+      <tran_glyph conn="40,38,0,2,-9">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="34,38,12,8">
+      <entry box="1,2,6,2"/>
+     </state_glyph>
+    </state>
+    <state_diagram size="101,61"/>
+   </statechart>
+  </class>
+  <directory name=".">
+   <file name="Blinky.c" codec="UTF-8">
+    <text>#include &quot;qpc.h&quot;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &quot;Blinky.h&quot;
+#include &quot;bsp.h&quot;
+
+enum BlinkySignals {
+    TIMEOUT_SIG = Q_USER_SIG,
+    MAX_SIG
+};
+
+Blinky l_blinky;
+
+$define(AOs::Blinky)
+
+</text>
+   </file>
+   <file name="Blinky.h" codec="UTF-8">
+    <text>
+#include &quot;qpc.h&quot;
+
+$declare(AOs::Blinky)
+
+extern Blinky l_blinky;
+</text>
+   </file>
+  </directory>
+ </package>
+</model>
